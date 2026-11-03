@@ -1,0 +1,7 @@
+{
+  "name": "offs1de-barber-club",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"backend/tests/*.test.js\""
+  }
+}
