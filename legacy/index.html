@@ -1,0 +1,76 @@
+<!-- Versión original (solo referencia visual). No tiene backend funcional; ver docs/arquitectura.md. -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas | Offs1de Barber Club</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --accent-gold: #d4af37;
+            --accent-hover: #b5952f;
+        }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 400px; background-color: var(--bg-color); padding: 20px; box-sizing: border-box; }
+        .logo-img { width: 120px; height: 120px; margin: 0 auto 10px auto; border: 2px solid var(--accent-gold); border-radius: 50%; display: block; object-fit: cover; background-color: #000; }
+        .slogan { text-align: center; font-size: 14px; color: var(--accent-gold); text-transform: uppercase; font-weight: bold; letter-spacing: 2px; margin-bottom: 30px; }
+        h2 { font-size: 18px; margin-bottom: 15px; color: var(--text-main); border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+        select, input { width: 100%; padding: 14px; background-color: var(--card-bg); border: 1px solid #333; border-radius: 8px; color: var(--text-main); font-size: 16px; box-sizing: border-box; outline: none; }
+        select:focus, input:focus { border-color: var(--accent-gold); }
+        select:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-book { width: 100%; background-color: var(--accent-gold); color: #000; border: none; padding: 16px; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: background-color 0.3s ease; margin-top: 10px; }
+        .btn-book:hover { background-color: var(--accent-hover); }
+        .success-message { display: none; text-align: center; padding: 20px; background-color: var(--card-bg); border-radius: 8px; border-left: 4px solid var(--accent-gold); margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <img src="https://i.postimg.cc/pXFysGqN/IMG-4328.png" alt="Logo Offs1de" class="logo-img">
+        <div class="slogan">💈CORTES DE PRIMERA DIVISIÓN💈</div>
+
+        <form id="bookingForm">
+            <h2>Alineación Titular</h2>
+            <div class="form-group">
+                <label for="barber">Selecciona a tu Barbero:</label>
+                <select id="barber" required>
+                    <option value="" disabled selected>Elige un profesional...</option>
+                    <option value="Kevin">Kevin</option>
+                    <option value="Olanda">Olanda</option>
+                </select>
+            </div>
+
+            <h2>Día del Partido</h2>
+            <div class="form-group">
+                <label for="date">Fecha de la cita:</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="time">Hora:</label>
+                <select id="time" required disabled>
+                    <option value="" disabled selected>Elige barbero y fecha primero...</option>
+                </select>
+            </div>
+
+            <h2>Datos del Jugador</h2>
+            <div class="form-group">
+                <label for="name">Tu Nombre:</label>
+                <input type="text" id="name" placeholder="Ej. Cristiano Ronaldo" required>
+            </div>
+
+            <button type="submit" class="btn-book">Confirmar Fichaje</button>
+        </form>
+
+        <div id="successMessage" class="success-message">
+            <h3>¡Fichaje Confirmado!</h3>
+            <p>Revisa la descarga o notificaciones para guardar el recordatorio en tu calendario.</p>
+        </div>
+    </div>
+    <!-- El script original (fetch a Apps Script y generación de .ics) se omitió: dependía de un backend inexistente. -->
+</body>
+</html>
