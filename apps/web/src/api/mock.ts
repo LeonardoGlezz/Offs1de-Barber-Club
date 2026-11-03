@@ -27,12 +27,17 @@ function load(): Db {
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) return JSON.parse(raw) as Db;
-  } catch { /* almacenamiento bloqueado: se usa una base vacía */ }
-  return { bookings: [], blocks: [] };
+  } catch { /* almacenamiento bloqueado: se usa la copia en memoria */ }
+  return memory ?? { bookings: [], blocks: [] };
 }
 
+// Respaldo para navegadores que bloquean localStorage (modo privado, vistas embebidas):
+// los datos duran mientras la pestaña esté abierta.
+let memory: Db | null = null;
+
 function save(db: Db) {
-  try { localStorage.setItem(KEY, JSON.stringify(db)); } catch { /* sin persistencia */ }
+  memory = db;
+  try { localStorage.setItem(KEY, JSON.stringify(db)); } catch { /* solo en memoria */ }
 }
 
 class MockError extends Error {

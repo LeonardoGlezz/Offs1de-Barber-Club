@@ -13,6 +13,13 @@ import { header, STATUS_LABEL } from './shared';
 const PIN_KEY = 'offs1de-pin';
 const RANGE_DAYS = 14;
 
+// El PIN vive solo en esta pestaña; si el navegador bloquea el almacenamiento, se pide en cada visita.
+const pinStore = {
+  get: () => { try { return sessionStorage.getItem(PIN_KEY); } catch { return null; } },
+  set: (pin: string) => { try { sessionStorage.setItem(PIN_KEY, pin); } catch { /* sin almacenamiento */ } },
+  clear: () => { try { sessionStorage.removeItem(PIN_KEY); } catch { /* sin almacenamiento */ } },
+};
+
 interface Ctx {
   app: HTMLElement;
   pin: string;
@@ -22,13 +29,13 @@ interface Ctx {
 }
 
 export async function renderBarber(app: HTMLElement) {
-  const pin = sessionStorage.getItem(PIN_KEY);
+  const pin = pinStore.get();
   if (pin) {
     try {
       const session = await api.adminLogin(pin);
       return renderPanel({ app, pin, session, day: todayLocal() });
     } catch {
-      sessionStorage.removeItem(PIN_KEY);
+      pinStore.clear();
     }
   }
   renderLogin(app);
@@ -49,7 +56,7 @@ function renderLogin(app: HTMLElement) {
     const pin = String(new FormData(form).get('pin') ?? '');
     const session = await busy($<HTMLButtonElement>('button', form), 'Entrando…', () => api.adminLogin(pin));
     if (!session) return;
-    sessionStorage.setItem(PIN_KEY, pin);
+    pinStore.set(pin);
     renderPanel({ app, pin, session, day: todayLocal() });
   });
 }
@@ -76,7 +83,7 @@ async function renderPanel(ctx: Ctx) {
     if (act === 'new') openEditor(ctx, null);
     if (act === 'block') openBlock(ctx);
     if (act === 'logout') {
-      sessionStorage.removeItem(PIN_KEY);
+      pinStore.clear();
       renderLogin(app);
     }
   });
