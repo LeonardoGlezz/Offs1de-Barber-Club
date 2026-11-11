@@ -11,7 +11,11 @@ Backend del MVP. Usa la hoja de cálculo como base de datos y Google Calendar co
 | `Core.js` | Lógica pura (horarios, validaciones, mensajes); se prueba con Node |
 | `Setup.js` | `setup()` crea las hojas con datos de ejemplo |
 
-## Instalación (manual, 10 minutos)
+## Instalación
+
+Guía paso a paso para la entrega: [`docs/entrega-mvp.md`](../../docs/entrega-mvp.md). Lo más rápido es pegar `dist/Codigo.gs` (todos los archivos en uno, se genera con `npm run bundle`).
+
+### Archivo por archivo (alternativa)
 
 1. Crea una hoja de cálculo nueva en Google Drive con la cuenta de la barbería.
 2. **Extensiones > Apps Script.** Crea un archivo por cada `.js` de esta carpeta y pega su contenido. En **Configuración del proyecto** activa "Mostrar el archivo de manifiesto" y pega `appsscript.json`.

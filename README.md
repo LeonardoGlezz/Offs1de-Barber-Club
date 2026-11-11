@@ -16,6 +16,8 @@ PWA de reservas para la barbería **Offs1de Barber Club** (temática de fútbol)
 
 Más adelante, para venderlo a varias barberías, el backend migra a Supabase. El frontend solo habla con `apps/web/src/api/`, así que la migración no toca la interfaz.
 
+**Para publicar el sistema real:** [`docs/entrega-mvp.md`](docs/entrega-mvp.md).
+
 Detalles en [`docs/arquitectura.md`](docs/arquitectura.md) y el contrato de la API en [`docs/api.md`](docs/api.md).
 
 ## Estructura
