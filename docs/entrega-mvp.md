@@ -38,7 +38,7 @@ Usa la cuenta de Google de la barbería: ahí quedan la hoja y los calendarios.
 | `Barberos` | Nombres y **PIN** de cada barbero (cámbialos, 1111 y 2222 son de ejemplo) |
 | `Servicios` | Nombres, **duración en minutos** y precio |
 | `Horario` | Horario por día (0 = domingo). Sin hora de apertura = cerrado |
-| `Ajustes` | `urlPublica`: `https://leonardoglezz.github.io/Offs1de-Barber-Club` (sin `/` al final). `mapsUrl`: enlace de Google Maps de la barbería |
+| `Ajustes` | `urlPublica` ya trae la URL de GitHub Pages. `mapsUrl`: enlace de Google Maps de la barbería |
 
 Los cambios en la hoja se aplican de inmediato, sin volver a desplegar.
 
