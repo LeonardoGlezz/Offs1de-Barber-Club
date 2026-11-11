@@ -1,5 +1,6 @@
 node_modules/
 dist/
+!backend/apps-script/dist/
 .env
 .env.*
 !.env.example
