@@ -76,7 +76,8 @@ export async function renderBooking(app: HTMLElement) {
         <label class="hp" aria-hidden="true">No llenar <input name="website" tabindex="-1" autocomplete="off" /></label>
       </fieldset>
       <button class="btn primary big" type="submit" id="confirm" disabled>Confirmar fichaje</button>
-    </form>`;
+    </form>
+    <footer class="site-footer"><a href="#/barbero">¿Eres barbero? Entra a tu agenda</a></footer>`;
 
   const form = $<HTMLFormElement>('#booking', app);
   const slotsEl = $('#slots', app);
