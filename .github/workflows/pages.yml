@@ -1,8 +1,12 @@
 name: Publicar PWA en GitHub Pages
 
 # Publica apps/web cada vez que cambia main. Requiere activar Pages con
-# "Source: GitHub Actions" en Settings > Pages. La URL de la API se toma de la
-# variable de repositorio VITE_API_URL; si no existe, se publica en modo demo.
+# "Source: GitHub Actions" en Settings > Pages. La URL de la API (Apps Script /exec)
+# se toma de la variable de repositorio VITE_API_URL; si no existe, se usa API_URL de
+# abajo. La URL es pública (queda dentro del JS publicado), no es un secreto.
+env:
+  API_URL: https://script.google.com/macros/s/AKfycbxEytKShqRDS9MNyfQIVPyIGMCFbGmHG023CO_AyDd701PaMGGvJwCsqZYRrDoyq_zNXA/exec
+
 on:
   push:
     branches: [main]
@@ -35,7 +39,7 @@ jobs:
       - run: npm run build
         env:
           VITE_BASE: /${{ github.event.repository.name }}/
-          VITE_API_URL: ${{ vars.VITE_API_URL }}
+          VITE_API_URL: ${{ vars.VITE_API_URL || env.API_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/web/dist

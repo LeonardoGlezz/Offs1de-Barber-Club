@@ -51,7 +51,7 @@ Para que cada barbero vea su agenda en el celular: en [Google Calendar](https://
    - Quién tiene acceso: **Cualquier persona**
 2. **Implementar** y copia la **URL de la aplicación web** (termina en `/exec`).
 3. Prueba: abre esa URL en el navegador. Debe mostrar `{"ok":true,...}`.
-4. GitHub > repo > **Settings > Secrets and variables > Actions > pestaña Variables > New repository variable**:
+4. GitHub > repo > **Settings > Secrets and variables > Actions > pestaña Variables > New repository variable** (o cambia `API_URL` al inicio de `.github/workflows/pages.yml`, que se usa si la variable no existe):
    - Name: `VITE_API_URL`
    - Value: la URL `/exec`
 5. **Actions > Publicar PWA en GitHub Pages > Run workflow**.
