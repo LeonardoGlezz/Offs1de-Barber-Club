@@ -46,23 +46,24 @@ export function bookingSummary(b: PublicBooking) {
     </dl>`;
 }
 
-/** Botones para agregar al calendario; el principal depende del sistema del cliente. */
+/**
+ * Un solo botón para agregar la cita al calendario del cliente: en iPhone/Mac descarga el .ics
+ * (con alarmas 1 día y 1 hora antes); en lo demás abre Google Calendar. La otra opción queda
+ * como enlace discreto para quien use otro calendario.
+ */
 export function calendarButtons(container: HTMLElement, b: PublicBooking, cfg: Pick<Config, 'business' | 'mapsUrl'>) {
   const gcal = googleCalendarUrl(b, cfg.business, cfg.mapsUrl);
-  const primaryIsIcs = isApple();
+  const apple = isApple();
   container.innerHTML = `
     <div class="actions">
-      ${primaryIsIcs
+      ${apple
         ? '<button type="button" class="btn primary" data-ics>Agregar a mi calendario</button>'
-        : `<a class="btn primary" href="${esc(gcal)}" target="_blank" rel="noopener">Agregar a Google Calendar</a>`}
-      ${primaryIsIcs
-        ? `<a class="btn ghost" href="${esc(gcal)}" target="_blank" rel="noopener">Usar Google Calendar</a>`
-        : '<button type="button" class="btn ghost" data-ics>Descargar archivo .ics</button>'}
+        : `<a class="btn primary" href="${esc(gcal)}" target="_blank" rel="noopener">Agregar a mi calendario</a>`}
     </div>
-    <p class="hint">${primaryIsIcs
-      ? 'El evento te avisa 1 día antes y 1 hora antes.'
-      : 'Google Calendar usa tus recordatorios habituales; puedes agregar uno de 1 día antes al guardar.'}
-      El evento incluye el enlace para ver o cancelar tu cita.</p>`;
+    <p class="hint">Así no se te olvida: el evento trae el enlace para ver o cancelar tu cita.
+      ${apple
+        ? `¿Usas Google Calendar? <a href="${esc(gcal)}" target="_blank" rel="noopener">Ábrelo aquí</a>.`
+        : '¿Usas otro calendario (iPhone, Outlook)? <button type="button" class="btn link small" data-ics>Descarga el evento</button>.'}</p>`;
   container.querySelectorAll('[data-ics]').forEach(el =>
     el.addEventListener('click', () => downloadIcs(b, cfg.business, cfg.mapsUrl)));
 }
