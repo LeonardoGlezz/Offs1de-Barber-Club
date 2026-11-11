@@ -14,3 +14,5 @@ jobs:
         with:
           node-version: 22
       - run: npm test
+      - name: Codigo.gs al día
+        run: npm run bundle && git diff --exit-code backend/apps-script/dist
