@@ -2,21 +2,20 @@
 
 Tiempo estimado: 30 minutos. Todo es gratis. Se hace una sola vez.
 
-Al terminar, la PWA vive en una URL pública gratuita (Netlify), las citas se guardan en una hoja de Google, aparecen en el Google Calendar de cada barbero y el panel del barbero las ve todas.
+Al terminar, la PWA vive en `https://leonardoglezz.github.io/Offs1de-Barber-Club/`, las citas se guardan en una hoja de Google, aparecen en el Google Calendar de cada barbero y el panel del barbero las ve todas.
 
 ## 1. Publicar la PWA (5 min)
 
-El repo es privado, y GitHub Pages gratis solo funciona con repos públicos, así que se publica en **Netlify** (gratis, permite uso comercial y lee `netlify.toml` del repo).
+GitHub Pages gratis requiere que el repo sea público (no contiene contraseñas ni datos privados).
 
-1. Entra a [app.netlify.com](https://app.netlify.com) y regístrate con **GitHub**.
-2. **Add new project > Import an existing project > GitHub**. Autoriza a Netlify y elige **Offs1de-Barber-Club** (si no aparece: *Configure the Netlify app on GitHub* y dale acceso a ese repo).
-3. Rama: **main**. Los demás campos se llenan solos desde `netlify.toml` (base `apps/web`, comando `npm run build`, carpeta `dist`). **Deploy**.
-4. En 1 o 2 minutos te da una URL tipo `https://nombre-raro.netlify.app`. En **Site configuration > Change site name** ponle `offs1de` (queda `https://offs1de.netlify.app` si está libre).
-5. Ábrela: debe verse en **modo demo** (letrero punteado arriba). Anota la URL: la usas en los pasos 3 y 4.
+1. Repo > **Settings > General > Danger Zone > Change repository visibility > Change to public**.
+2. Repo > **Settings > Pages > Source: GitHub Actions**.
+3. **Actions > Publicar PWA en GitHub Pages > Run workflow** (rama `main`).
+4. En 1 o 2 minutos abre `https://leonardoglezz.github.io/Offs1de-Barber-Club/`. Debe verse en **modo demo** (letrero punteado arriba).
 
-Cada push a `main` vuelve a publicar solo.
+Cada push a `main` que toque `apps/web` vuelve a publicar solo.
 
-> Alternativa: si haces público el repo, activa **Settings > Pages > Source: GitHub Actions** en el repo y corre el workflow *Publicar PWA en GitHub Pages*.
+> Alternativa con el repo privado: Netlify (gratis) usa el `netlify.toml` del repo. *Add new project > Import from GitHub*, rama `main`, Deploy; la variable `VITE_API_URL` va en *Site configuration > Environment variables*.
 
 ## 2. Instalar la API en Google (15 min)
 
@@ -39,7 +38,7 @@ Usa la cuenta de Google de la barbería: ahí quedan la hoja y los calendarios.
 | `Barberos` | Nombres y **PIN** de cada barbero (cámbialos, 1111 y 2222 son de ejemplo) |
 | `Servicios` | Nombres, **duración en minutos** y precio |
 | `Horario` | Horario por día (0 = domingo). Sin hora de apertura = cerrado |
-| `Ajustes` | `urlPublica`: la URL del paso 1 (sin `/` al final). `mapsUrl`: enlace de Google Maps de la barbería |
+| `Ajustes` | `urlPublica`: `https://leonardoglezz.github.io/Offs1de-Barber-Club` (sin `/` al final). `mapsUrl`: enlace de Google Maps de la barbería |
 
 Los cambios en la hoja se aplican de inmediato, sin volver a desplegar.
 
@@ -52,12 +51,10 @@ Para que cada barbero vea su agenda en el celular: en [Google Calendar](https://
    - Quién tiene acceso: **Cualquier persona**
 2. **Implementar** y copia la **URL de la aplicación web** (termina en `/exec`).
 3. Prueba: abre esa URL en el navegador. Debe mostrar `{"ok":true,...}`.
-4. Netlify > tu sitio > **Site configuration > Environment variables > Add a variable**:
-   - Key: `VITE_API_URL`
+4. GitHub > repo > **Settings > Secrets and variables > Actions > pestaña Variables > New repository variable**:
+   - Name: `VITE_API_URL`
    - Value: la URL `/exec`
-5. **Deploys > Trigger deploy > Deploy site**.
-
-(Con GitHub Pages, la variable va en GitHub > Settings > Secrets and variables > Actions > Variables, y luego se corre el workflow.)
+5. **Actions > Publicar PWA en GitHub Pages > Run workflow**.
 
 Cuando termine, el letrero de modo demo desaparece: ya está conectada.
 
@@ -80,5 +77,5 @@ Edita `backend/apps-script/*.js`, corre `npm run bundle`, pega de nuevo `dist/Co
 | "Error interno" al reservar | Falta ejecutar `setup` o los permisos | Ejecuta `setup` y acepta permisos |
 | No aparecen eventos | El ID de calendario en `Barberos` no existe | Vuelve a poner `nuevo` y ejecuta `setup` |
 | Cambié el código y no se ve | No se creó una versión nueva | Gestionar implementaciones > Nueva versión |
-| Sigue en modo demo | Falta la variable o volver a publicar | Revisa `VITE_API_URL` en Netlify y haz *Trigger deploy* |
+| Sigue en modo demo | Falta la variable o volver a publicar | Revisa `VITE_API_URL` y corre el workflow de Pages |
 | El enlace de la cita no abre | `urlPublica` vacía o con otra URL | Pon la URL del sitio en `Ajustes` |
