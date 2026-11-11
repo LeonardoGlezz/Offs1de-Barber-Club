@@ -1,0 +1,15 @@
+# Publicación en Netlify (gratis, funciona con el repo privado).
+# Netlify lee este archivo solo: no hace falta configurar nada en su panel salvo VITE_API_URL.
+[build]
+  base = "apps/web"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# El service worker siempre se revisa para que las actualizaciones lleguen al instante.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
