@@ -28,7 +28,7 @@ function setup() {
     ],
     Ajustes: [
       ['negocio', 'Offs1de Barber Club'],
-      ['urlPublica', ''], // URL del sitio publicado, para los enlaces de cada cita
+      ['urlPublica', 'https://leonardoglezz.github.io/Offs1de-Barber-Club'], // URL del sitio, para los enlaces de cada cita
       ['intervaloMin', '60'],
       ['diasMaxAnticipacion', '30'],
       ['minMinutosAntes', '120'],
