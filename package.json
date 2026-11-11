@@ -2,6 +2,7 @@
   "name": "offs1de-barber-club",
   "private": true,
   "scripts": {
-    "test": "node --test \"backend/tests/*.test.js\""
+    "test": "node --test \"backend/tests/*.test.js\"",
+    "bundle": "node backend/scripts/bundle.js"
   }
 }

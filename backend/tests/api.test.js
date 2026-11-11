@@ -19,6 +19,7 @@ function makeSheet(name, sheets) {
     getRange: (r, c, nr, nc) => ({
       setValues: vals => { vals.forEach((row, i) => { sh.data[r - 1 + i] = sh.data[r - 1 + i] || []; row.forEach((v, j) => { sh.data[r - 1 + i][c - 1 + j] = v; }); }); return { setFontWeight: () => {} }; },
       setNumberFormat: () => {},
+      setValue: v => { sh.data[r - 1] = sh.data[r - 1] || []; sh.data[r - 1][c - 1] = v; },
     }),
     deleteRow: r => { sh.data.splice(r - 1, 1); },
     getMaxRows: () => 1000,
@@ -66,7 +67,11 @@ function makeEnv() {
         insertSheet: n => makeSheet(n, sheets),
       }),
     },
-    CalendarApp: { getDefaultCalendar: () => calendar('default'), getCalendarById: id => calendar(id) },
+    CalendarApp: {
+      getDefaultCalendar: () => calendar('default'),
+      getCalendarById: id => calendar(id),
+      createCalendar: name => { const id = 'cal-' + name; calendar(id); return { getId: () => id }; },
+    },
     LockService: { getScriptLock: () => ({ tryLock: () => true, releaseLock: () => {} }) },
     CacheService: { getScriptCache: () => ({ get: k => cache[k] || null, put: (k, v) => { cache[k] = v; } }) },
     PropertiesService: { getScriptProperties: () => ({ getProperty: k => props[k] || null, setProperty: (k, v) => { props[k] = v; } }) },
@@ -153,6 +158,14 @@ test('validaciones públicas', () => {
   call(base);
   call({ ...base, time: '12:00' });
   assert.equal(call({ ...base, time: '13:00' }).error.code, 'too_many');
+});
+
+test('setup crea un calendario por barbero y lo usa para sus citas', () => {
+  const { ctx, sheets, events, call } = makeEnv();
+  const ids = sheets.Barberos.data.slice(1).map(r => r[2]);
+  assert.deepEqual(ids, ['cal-Offs1de · Kevin', 'cal-Offs1de · Olanda']);
+  call({ action: 'book', barberId: 'olanda', serviceId: 'clasico', date: workday(ctx, 3), time: '10:00', name: 'Leo', phone: '5512345678' });
+  assert.equal(Object.values(events)[0].cal, 'cal-Offs1de · Olanda');
 });
 
 test('panel del barbero: crear, mover, cambiar de barbero y cancelar se refleja en Calendar', () => {

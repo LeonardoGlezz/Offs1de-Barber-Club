@@ -6,8 +6,9 @@ function setup() {
   const ss = SpreadsheetApp.getActive();
   const samples = {
     Barberos: [
-      ['kevin', 'Kevin', 'default', '1111', '', 'si'],
-      ['olanda', 'Olanda', 'default', '2222', '', 'si'],
+      // calendarId 'nuevo' = setup() crea un calendario para ese barbero.
+      ['kevin', 'Kevin', 'nuevo', '1111', '', 'si'],
+      ['olanda', 'Olanda', 'nuevo', '2222', '', 'si'],
     ],
     // Duraciones de ejemplo: confirmar con la barbería.
     Servicios: [
@@ -27,7 +28,7 @@ function setup() {
     ],
     Ajustes: [
       ['negocio', 'Offs1de Barber Club'],
-      ['urlPublica', ''],
+      ['urlPublica', 'https://leonardoglezz.github.io/Offs1de-Barber-Club'],
       ['intervaloMin', '60'],
       ['diasMaxAnticipacion', '30'],
       ['minMinutosAntes', '120'],
@@ -50,6 +51,8 @@ function setup() {
     }
   });
 
+  createBarberCalendars_();
+
   const props = PropertiesService.getScriptProperties();
   if (!props.getProperty('OWNER_PIN')) {
     const pin = String(Math.floor(100000 + Math.random() * 900000));
@@ -57,4 +60,19 @@ function setup() {
     console.log('PIN del dueño generado: ' + pin + ' (cámbialo en Configuración del proyecto > Propiedades del script).');
   }
   console.log('Listo. Revisa las hojas Barberos, Servicios, Horario y Ajustes.');
+}
+
+/**
+ * Crea un calendario "Offs1de · <barbero>" para cada barbero con calendarId 'nuevo' y guarda su ID.
+ * Después compártelo con el barbero desde Google Calendar (Configuración > Compartir con personas).
+ */
+function createBarberCalendars_() {
+  readRows_(SHEETS.barbers)
+    .filter(r => String(r.calendarId).trim().toLowerCase() === 'nuevo')
+    .forEach(r => {
+      const cal = CalendarApp.createCalendar('Offs1de · ' + r.nombre, { timeZone: Session.getScriptTimeZone() });
+      const col = HEADERS.Barberos.indexOf('calendarId') + 1;
+      sheet_(SHEETS.barbers).getRange(r._row, col).setValue(cal.getId());
+      console.log('Calendario creado para ' + r.nombre + ': ' + cal.getId());
+    });
 }
