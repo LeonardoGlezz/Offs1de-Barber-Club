@@ -5,7 +5,7 @@ name: Publicar PWA en GitHub Pages
 # se toma de la variable de repositorio VITE_API_URL; si no existe, se usa API_URL de
 # abajo. La URL es pública (queda dentro del JS publicado), no es un secreto.
 env:
-  API_URL: https://script.google.com/macros/s/AKfycbxEytKShqRDS9MNyfQIVPyIGMCFbGmHG023CO_AyDd701PaMGGvJwCsqZYRrDoyq_zNXA/exec
+  API_URL: https://script.google.com/macros/s/AKfycby1zQjsP78KRpsDAA4Ue5fcOYsYgqBchQFG9OsYVr97mdpmyiVuE7hTglUNz9i6ueERzg/exec
 
 on:
   push:
